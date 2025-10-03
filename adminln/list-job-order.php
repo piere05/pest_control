@@ -372,7 +372,7 @@ if(mysqli_num_rows($select_job_order)>>0){ ?>
 <table id="example2" class="table table-striped table-bordered" style="width:100%">
 <thead>
 <tr>
-<!-- <th>Date</th> -->
+
 <th class="d-none">SNo</th>
 <th >Created Date</th>
 <th>Company & Customer Details</th>
