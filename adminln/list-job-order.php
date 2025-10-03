@@ -496,7 +496,7 @@ $feedback_btn='';
 <td><?=$company_name; ?><p class="mt-1"><?=$customer_name. " - "."+971 ".$mobile; ?></p></td>
 <td><p class="mb-0 ">Job Date: <?=$job_date;?></p><p class="mt-1 ">Job Time: <?=$job_time;?></p></td>
 <td><p class="mb-0"> <?=$site_name; ?></p>
-<p class="mb-0"> <? echo wordwrap($site_address, 50, "<br />\n"); ?><?=$location_icon;?></p></td>
+<p class="mb-0"> <? echo wordwrap($site_address, 30, "<br />\n"); ?><?=$location_icon;?></p></td>
 <td><p class="mb-0"> <?=$supervisor_name." - ".$supervisor_mobile; ?> 	<? if ($status==0) {
 	
 ?>

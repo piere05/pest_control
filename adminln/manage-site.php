@@ -17,14 +17,17 @@ if ($Submit=='Search') {
 }
 if($Submit=='Add')
 {
-
-   $select_customer=mysqli_query($conn,"select * from customers where id='$customer_id'");
+$select_customer=mysqli_query($conn,"select * from customers where id='$customer_id'");
    $row_customer=mysqli_fetch_array($select_customer);
 
    $customer_mobile=$row_customer['mobile'];
     $company_name=$row_customer['company_name'];
+    $Site_Name=trim($site_name);
+    $select_site=mysqli_query($conn,"select * from site where site_name='$Site_Name'");
+if (mysqli_num_rows($select_site)==0) {
+  
 
-$insert_site=mysqli_query($conn,"INSERT INTO site set customer_id='$customer_id',company_name='$company_name',customer_mobile='$customer_mobile',site_name = '$site_name',mobile = '$mobile',email = '$email',location = '$location',incharge_name = '$incharge_name',email_service = '$mail_service',site_address = '$site_address',description = '$description', status = '$status',  created_by = ".$_SESSION['UID'].", created_datetime = '$currentTime'  ");
+$insert_site=mysqli_query($conn,"INSERT INTO site set customer_id='$customer_id',company_name='$company_name',customer_mobile='$customer_mobile',site_name = '$Site_Name',mobile = '$mobile',email = '$email',location = '$location',incharge_name = '$incharge_name',email_service = '$mail_service',site_address = '$site_address',description = '$description', status = '$status',  created_by = ".$_SESSION['UID'].", created_datetime = '$currentTime'  ");
 if($insert_site)
 {
 $msg = 'Site Added Successfully';
@@ -33,6 +36,11 @@ header('Location:manage-site.php?msg='.$msg);
 else
 {
 $alert_msg = 'Could not able to add try once again!!!';
+header('Location:manage-site.php?alert_msg='.$alert_msg);
+}
+}else{
+   $alert_msg = 'Site Already Exists!!!';
+   header('Location:manage-site.php?alert_msg='.$alert_msg);
 }
 }
 if($Submit=='Update')
@@ -43,7 +51,10 @@ if($Submit=='Update')
    $customer_mobile=$row_customer['mobile'];
    $company_name=$row_customer['company_name'];
 
-$update_site=mysqli_query($conn,"update site set customer_id='$customer_id',company_name='$company_name',customer_mobile='$customer_mobile',site_name = '$site_name',incharge_name = '$incharge_name',email_service = '$mail_service',mobile = '$mobile',email = '$email',location = '$location',site_address = '$site_address',description = '$description', status = '$status', modified_by = ".$_SESSION['UID'].", modified_datetime ='$currentTime'  where id='$MainId' ");
+   $Site_Name=trim($site_name);
+    $select_site=mysqli_query($conn,"select * from site where site_name='$Site_Name' and id!='$MainId'");
+if (mysqli_num_rows($select_site)==0) {
+$update_site=mysqli_query($conn,"update site set customer_id='$customer_id',company_name='$company_name',customer_mobile='$customer_mobile',site_name = '$Site_Name',incharge_name = '$incharge_name',email_service = '$mail_service',mobile = '$mobile',email = '$email',location = '$location',site_address = '$site_address',description = '$description', status = '$status', modified_by = ".$_SESSION['UID'].", modified_datetime ='$currentTime'  where id='$MainId' ");
 if($update_site)
 {
 $msg = 'Site Updated Successfully';
@@ -52,6 +63,11 @@ header('Location:manage-site.php?msg='.$msg);
 else
 {
 $alert_msg = 'Could not able to update try once again!!!';
+header('Location:manage-site.php?alert_msg='.$alert_msg);
+}
+}else{
+$alert_msg = 'Site Already Exists!!!';
+   header('Location:manage-site.php?alert_msg='.$alert_msg);
 }
 }
 if($act=='delete' && $ID>0) 

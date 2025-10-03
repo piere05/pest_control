@@ -268,7 +268,7 @@ if ($is_mail_sent==0) {
 <td><?=$company_name; ?></td>
 <td><p class="mt-2 "><?=$customer_name. " - "."+971 ".$mobile; ?></p></td>
 <td><p class="mb-0"> <?=$site_name; ?></p>
-<p class="mb-0"> <? echo wordwrap($site_address, 30, "<br />\n"); ?><?=$location_icon;?></p></td>
+<p class="mb-0"> <? echo wordwrap($site_address, 25, "<br />\n"); ?><?=$location_icon;?></p></td>
 <td>AED <?=$total_amount;?> <a type="button" class="ms-1 text-dark" tooltip="Price Log" data-bs-toggle="modal" data-bs-target="#exampleExtraLargeModal" onclick="getlog('<?=$id;?>')"><i class="bx bx-info-circle"></i></a></td>
 <td>
 <?=$Status; ?>
@@ -302,12 +302,6 @@ if ($is_mail_sent==0) {
 </div>
 </div>
 </div>
-
-
-
-
-
-
 
 <div class="modal fade" id="exampleExtraLargeModal" tabindex="1" aria-hidden="false">
 <div class="modal-dialog modal-lg p-5">

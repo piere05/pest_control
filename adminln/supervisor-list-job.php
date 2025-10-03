@@ -165,12 +165,8 @@ header("Location:supervisor-list-job.php?msg=$msg");
 
 </div>
 </form>
-
-
-
-
 <? 
-$select_job_order=mysqli_query($conn,"select * from job_order where  1=1 and supervisor_id='$user_id'  $subqry  $url_subqry order by created_datetime desc ");
+$select_job_order=mysqli_query($conn,"select * from job_order where  1=1 and supervisor_id='$user_id'  $subqry  $url_subqry order by job_date asc ");
 
 if(mysqli_num_rows($select_job_order)>>0){ ?>
 <div class="card">
@@ -280,13 +276,14 @@ $location_icon='<a href="'.$location.'" target="_blank" class="mx-2 font-16"><i 
 <p class="mb-0"> <?=date('d-m-Y',strtotime($job_order_date));?></p>
 </td>
 
-<td><p class="mb-0 "> <?=$job_date;?> - <?=$job_time;?></p>
+<td><p class="mb-0 "> <?=$job_date;?></p>
+	<p class="mb-0"><?=$job_time;?></p>
 <p class="mb-0"> <b><?=$technician_details;?></b></p></td>
 
 <td class=""><?=$main_job_type; ?></td>
 <td><?=$company_name; ?><p class="mt-1"><?=$customer_name. " - ".$mobile; ?></p></td>
 <td><p class="mb-0"> <?=$site_name; ?></p>
-<p class="mb-0"> <? echo wordwrap($site_address,  100, "<br />\n"); ?><?=$location_icon;?></p>
+<p class="mb-0"> <? echo wordwrap($site_address,  30, "<br />\n"); ?><?=$location_icon;?></p>
 
 </td>
 
