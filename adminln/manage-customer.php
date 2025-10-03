@@ -13,7 +13,7 @@ if($Submit=='Create Customer')
 $select_customer2 =mysqli_query($conn,"select * from customers where mobile='$mobile'");
 
 if(mysqli_num_rows($select_customer2)==0){
-$insert_customer=mysqli_query($conn,"insert into customers set company_name='$company_name',customer_name='$customer_name',email='$email',mobile='$mobile',trn_no='$trn_no',location='$location',alternate_mobile='$alternate_mobile',address='$address',city='$city', status = '$status',  created_by = ".$_SESSION['UID'].", created_datetime = '$currentTime'");
+$insert_customer=mysqli_query($conn,"insert into customers set company_name='$company_name',customer_name='$customer_name',email='$email', mobile='$mobile',trn_no='$trn_no',location='$location',alternate_mobile='$alternate_mobile',address='$address',city='$city', status = '$status',  created_by = ".$_SESSION['UID'].", created_datetime = '$currentTime'");
 if($insert_customer)
 {
 $msg = 'Customer Details Added Successfully';
@@ -37,7 +37,7 @@ if($Submit=='Update Customer')
 $select_customer2 =mysqli_query($conn,"select * from customers where mobile='$mobile' and id!='$ID'");
 
 if(mysqli_num_rows($select_customer2)==0){
-$update_customer=mysqli_query($conn,"update customers set company_name='$company_name',customer_name='$customer_name',email='$email',alternate_mobile='$alternate_mobile',trn_no='$trn_no',location='$location',address='$address',city='$city', status = '$status',modified_by= ".$_SESSION['UID'].", modified_datetime ='$currentTime'  where id='$ID'");
+$update_customer=mysqli_query($conn,"update customers set company_name='$company_name',customer_name='$customer_name', mobile='$mobile', email='$email',alternate_mobile='$alternate_mobile',trn_no='$trn_no',location='$location',address='$address',city='$city', status = '$status',modified_by= ".$_SESSION['UID'].", modified_datetime ='$currentTime'  where id='$ID'");
 
 
 if($update_customer)
@@ -196,7 +196,7 @@ foreach($row_R as $K1=>$V1) $$K1 = $V1;
 
 <div class="col-md-3">
 <label for="inputFirstName" class="form-label">Mobile <span class="req">*</span></label>
-<input type="text" name="mobile" class="form-control" value="<?=$mobile;?>" placeholder="Mobile" aria-required="true"  value="" pattern="[0-9]{9}" oninput="this.value=this.value.replace(/[^0-9]/g,'');"<?if($ID!=''){echo "readonly";}?> maxlength="9" min="9"  required>
+<input type="text" name="mobile" class="form-control" value="<?=$mobile;?>" placeholder="Mobile" aria-required="true"  value="" pattern="[0-9]{9}" oninput="this.value=this.value.replace(/[^0-9]/g,'');"  maxlength="9" min="9"  required>
 </div>
 
 <div class="col-md-3">
@@ -321,7 +321,7 @@ $location_icon='<a href="'.$location.'" target="_blank" class="mx-2 font-16"><i 
 <td><?= $company_name; ?></td>
 <td><?=$customer_name; ?></td>
 
-<td>+971 <?=$mobile; ?></td>
+<td><? if($mobile !=''){ echo '+971 '.$mobile; }else { echo " - "; } ?></td>
 <td><?=$email; ?></td>
 <td> <?=$Alternate_mobile;?></td>
 <td><?=wordwrap($address, 30, "<br/>\n").'<br/>'.$city; ?><?=$location_icon;?><p class="mt-1"><?=$trn_no;?></p></td>

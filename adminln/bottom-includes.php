@@ -60,6 +60,15 @@ pageLength: 100,
 
 } );
 </script>
+
+
+<script src="assets/fullcalendar/js/moment.min.js"></script>
+<script src="assets/fullcalendar/js/fullcalendar.min.js"></script>
+
+
+
+
+  
 <script>
 $(document).ready(function() {
 var table = $('#example2').DataTable( {

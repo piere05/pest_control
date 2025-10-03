@@ -363,7 +363,7 @@ while ($row_customer=mysqli_fetch_array($select_customer)) {
 
 
 <? 
-$select_job_order=mysqli_query($conn,"select * from job_order where 1=1  $subqry  $url_subqry order by created_datetime desc "); 
+$select_job_order=mysqli_query($conn,"select * from job_order where 1=1  $subqry  $url_subqry order by job_date asc "); 
 
 if(mysqli_num_rows($select_job_order)>>0){ ?>
 <div class="card">

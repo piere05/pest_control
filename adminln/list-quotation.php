@@ -211,13 +211,8 @@ $company_name=$row_quotation['company_name'];
 $mobile=$row_quotation['customer_mobile'];
 
 $select_customer=mysqli_query($conn,"select * from customers where mobile='$mobile'");
-
 $row_customer=mysqli_fetch_array($select_customer);
 $customer_name=$row_customer['customer_name'];
-
-
-
-
 $site_name=$row_quotation['site_name'];
 $site_id=$row_quotation['site_id'];
 $status=$row_quotation['status'];
@@ -226,32 +221,24 @@ $select_site=mysqli_query($conn,"select * from site where id='$site_id'");
 
 $row_site=mysqli_fetch_array($select_site);
 $site_address=$row_site['site_address'];
-
 $total_amount=$row_quotation['total_amount'];
 $is_mail_sent=$row_quotation['is_mail_sent'];
-
-
 if($status == '1'){
 $Status= '<span class="btn btn-outline-success disabled">Completed</span>';
 }
-
 else{
 $Status = '<a href="create-job-order.php?id='.$id.'" class="btn btn-danger" tooltip="Move To Job Order">Move to Job Order</a>';
 }
-
 if ($lead_id==0) {
 	$label='<div class="position-relative"><img src="assets/images/Our/direct.jpg" class="direct" width="100px"></div>';
 }else{
 	$label="";
 }
-
 if ($location!='') {
 $location_icon='<a href="'.$location.'" target="_blank" class="mx-2 font-16"><i class="bx bx-location-plus"></i></a>';
 }else{
   $location_icon="";
 }
-
-
 if ($is_mail_sent==0) {
 	
 	$mail_btn= '<a href="quotation-mail.php?id='.$id.'&act=print" tooltip="Send Mail" class="btn btn-add ms-3 btn-sm"><i class="lni lni-envelope"></i></a>';
@@ -276,23 +263,18 @@ if ($is_mail_sent==0) {
 
 
 <td>
-	<div class="order-actions">
-		
-	
+<div class="order-actions">
 <div class="d-flex">
-
 <a href="view-quotation.php?id=<?=$id; ?>" class="btn btn-add ms-3 btn-sm" tooltip="View"><i class="lni lni-eye"></i></a>
 <a href="export-invoice.php?id=<?=$id; ?>" target="_blank"  class="btn btn-add btn-sm ms-3" tooltip="Print"><i class="bx bxs-printer"></i></a>
 <?=$mail_btn;?>
 </div>
-
 <? if($status != '1'){?>
 <div class="d-flex  mt-2">
 	<a href="create-quotation.php?id=<?=$id; ?>"  class="btn btn-add btn-sm ms-3" tooltip="Edit"><i class="bx bxs-edit"></i></a>
 <a href="#" class="ms-3 btn-sm ms-3" data-toggle="modal" tooltip="Delete" data-target="#customer2" onClick="if(confirm('Are you sure want to delete this?')) { window.location.href='list-quotation.php?act=delete&id=<?=$id ?> ' }"><i class="bx bxs-trash "></i></a>
 </div>
 <?}?>
-
 </div>
 </td>
 </tr>
@@ -302,7 +284,6 @@ if ($is_mail_sent==0) {
 </div>
 </div>
 </div>
-
 <div class="modal fade" id="exampleExtraLargeModal" tabindex="1" aria-hidden="false">
 <div class="modal-dialog modal-lg p-5">
 <div class="modal-content">

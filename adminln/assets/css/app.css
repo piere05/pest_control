@@ -4107,3 +4107,77 @@ width: 25%;
 	 color: #000000 !important;
     opacity: 1 !important;
 }
+
+.dsd-single-book-footer {
+    display: flex
+;
+    align-items: center;
+    position: relative;
+    margin: 1rem 0;
+    gap: 15px;
+}
+.dsd-single-book-footer .btn {
+    height:46px;
+    padding: 0 20px;
+    font-weight: 500;
+    font-size: 13px;
+    background: #f4f5f7;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    border-radius: 4px;
+    color: #5c6574;
+}
+.dsd-single-book-footer .btn.btn-aprd {
+    background: #4caf50;
+    color: #ffffff;
+}
+.dsd-single-book-footer .btn.btn-reject {
+    background:#f44336;
+    color: #ffffff;
+}
+.dsd-single-book-footer .btn.btn-message {
+    background:#e1e5ed;
+}
+.dashboard-listing-wraps {
+    display: block;
+    position: relative;
+    width: 100%;
+}
+.dsd-single-listing-wraps {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid #f1f1f1;
+}
+.colr-red{
+  background: red;
+}
+.colr-green{
+  background: green;
+}
+.colr-orange{
+  background: orange;
+}
+
+.click-font{
+      color: #de190b;
+    font-weight: 600;
+}
+.meeting-bx{
+  width: 250px;
+  height: 100%;
+}
+.note-p{
+
+padding: 6px 6px;
+margin-bottom: 0px;
+}
+.note-tit{
+margin-bottom: 0;
+font-size: 14px;
+color: #000;
+font-weight: 600;
+}

@@ -163,7 +163,9 @@ $customer_mobile =$row_name['mobile'];
 
 <td>
 <div class="d-flex order-actions">
-<a href="view-site-report.php?id=<?=$id; ?>" class="btn btn-add btn-sm"><i class="lni lni-eye"></i></a>
+<a href="view-site-report.php?id=<?=$id; ?>" class="btn btn-add btn-sm me-3"><i class="lni lni-eye"></i></a>
+
+<a href="view-site-calendar.php?id=<?=$id; ?>" toooltip="Calendar" class="btn btn-add btn-sm"><i class="lni lni-calendar"></i></a>
 </div>
 </td>
 </tr>

@@ -134,7 +134,7 @@ if ($user_type==0) {
 
 <li class="<? if($Pagename=='customer-report.php') { ?>mm-active<? } ?>"> <a href="customer-report.php"><i class="bx bx-right-arrow-alt"></i>Customer Report</a></li>
 
-<li class="<? if($Pagename=='site-report.php' || $Pagename=='view-site-report.php') { ?>mm-active<? } ?>"> <a href="site-report.php"><i class="bx bx-right-arrow-alt"></i>Site Report</a></li>
+<li class="<? if($Pagename=='site-report.php' || $Pagename=='view-site-report.php' || $Pagename=='view-site-calendar.php') { ?>mm-active<? } ?>"> <a href="site-report.php"><i class="bx bx-right-arrow-alt"></i>Site Report</a></li>
 
 
 <li class="<? if($Pagename=='quotation-report.php') { ?>mm-active<? } ?>"> <a href="quotation-report.php"><i class="bx bx-right-arrow-alt"></i>Quotation Report</a></li>

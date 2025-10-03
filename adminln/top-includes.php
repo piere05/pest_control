@@ -5,6 +5,7 @@
 	<link href="assets/plugins/datatable/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
 	<link href="assets/plugins/select2/css/select2.min.css" rel="stylesheet" />
 	<link href="assets/plugins/select2/css/select2-bootstrap4.css" rel="stylesheet" />
+	 <link rel="stylesheet" href="assets/fullcalendar/css/fullcalendar.css" />
 	<!-- loader-->
 	<link href="assets/css/pace.min.css" rel="stylesheet" />
 	<script src="assets/js/pace.min.js"></script>

@@ -46,32 +46,46 @@ $insert_job_order_product=mysqli_query($conn,"insert into job_order_product set 
 }else{
 
 
-if ($amc_to_date > $amc_from_date) {
-$start_Date = strtotime($amc_from_date);
-$end_Date = strtotime($amc_to_date);
-if ($main_amc_duration == "Weekly") {
-    $increment_date = "+7 days";
-} elseif ($main_amc_duration == "Monthly") {
-    $increment_date = "+1 month";
-} elseif ($main_amc_duration == "Quarterly") {
-    $increment_date = "+3 months";
-} elseif ($main_amc_duration == "Half Yearly") {
-    $increment_date = "+6 months";
-}
-$dates=[];
+if ($ends_duration == 0) {
+    $to_date = $amc_end_on_date;
+} else {
+    $current = strtotime($amc_from_date);
 
-for ($current = $start_Date; $current <= $end_Date; $current = strtotime($increment_date, $current)) {
-     $dates[] = date("Y-m-d", $current);
+    if ($main_amc_duration == "days") {
+        $to_date = date('Y-m-d', strtotime("+" . ($repeat_every * ($amc_no_of_occurrence - 1)) . " days", $current));
+    } else if ($main_amc_duration == "weeks") {
+        $to_date = date('Y-m-d', strtotime("+" . ($repeat_every * 7 * ($amc_no_of_occurrence - 1)) . " days", $current));
+    } else if ($main_amc_duration == "months") {
+        $to_date = date('Y-m-d', strtotime("+" . ($repeat_every * ($amc_no_of_occurrence - 1)) . " months", $current));
+    } else if ($main_amc_duration == "years") {
+        $to_date = date('Y-m-d', strtotime("+" . ($repeat_every * ($amc_no_of_occurrence - 1)) . " years", $current));
+    } else {
+        $to_date = $amc_from_date;
+    }
 }
 
-for ($i=0; $i < count($dates); $i++) { 
-  $amc_job_date=$dates[$i];
-  $insert_job_order=mysqli_query($conn,"insert into job_order set customer_id='$customer_id',type_of_job='1',quotation_id='$ID',company_name='$company_name',customer_mobile='$customer_mobile',location='$location',job_date='$amc_job_date',job_time='$job_time',job_order_date='$job_order_date',site_id='$site_id',site_name='$site_name',site_address='$site_address',supervisor_id='$supervisor_id',type_of_report='$type_of_report',supervisor_name='$supervisor_name',total_amount='$grandtot',status='0',created_datetime='$currentTime'");
+
+if ($main_amc_duration == "days") {
+    $increment_date = "+" . $repeat_every . " days";
+} else if ($main_amc_duration == "weeks") {
+    $increment_date = "+" . ($repeat_every * 7) . " days";
+} else if ($main_amc_duration == "months") {
+    $increment_date = "+" . $repeat_every . " months";
+} else if ($main_amc_duration == "years") {
+    $increment_date = "+" . $repeat_every . " years";
+} else {
+    $increment_date = "+1 day";
+}
+
+
+for ($current = strtotime($amc_from_date); $current <= strtotime($to_date); $current = strtotime($increment_date, $current)) {
+    $job_date_final=date("Y-m-d", $current);
+$insert_job_order=mysqli_query($conn,"insert into job_order set customer_id='$customer_id',type_of_job='1',quotation_id='$ID',company_name='$company_name',customer_mobile='$customer_mobile',location='$location',job_date='$job_date_final',job_time='$job_time',job_order_date='$job_order_date',site_id='$site_id',site_name='$site_name',site_address='$site_address',supervisor_id='$supervisor_id',type_of_report='$type_of_report',supervisor_name='$supervisor_name',total_amount='$grandtot',status='0',created_datetime='$currentTime'");
+
 
  $last_job_id = $conn->insert_id;
 
- 
-$select_job_order_Det=mysqli_query($conn,"select * from quotation_product where quotation_id='$ID'");
+ $select_job_order_Det=mysqli_query($conn,"select * from quotation_product where quotation_id='$ID'");
 
 while($row_pro_details=mysqli_fetch_array($select_job_order_Det)){
 $job_type_id=$row_pro_details['job_type_id'];
@@ -87,9 +101,12 @@ $description=$row_pro_details['description'];
 
 $insert_job_order_product=mysqli_query($conn,"insert into job_order_product set job_order_id='$last_job_id',job_type='$job_type',job_type_id='$job_type_id',duration='$duration',amc_fromdate='$amc_fromdate',amc_todate='$amc_todate',amc_description='$amc_description',amount='$amount',vat='$vat',total='$total',description='$description',created_datetime='$currentTime'");
 }
-}
+
 
 }
+
+
+
 }
 
 
@@ -100,7 +117,7 @@ $msg='Job Order Created Successfully';
 header("Location:list-job-order.php?msg=$msg");
 }else{
    $alert_msg='Job Order Not Created'; 
-   //header("Location:list-job-order.php?alert_msg=$alert_msg");
+header("Location:list-job-order.php?alert_msg=$alert_msg");
 }
 }
 
@@ -562,42 +579,65 @@ echo "selected";
 
 
 <div class="my-3" id="amcdiv" style="display:none;">
-    
-    <div class="row">
-        
-   
-   <?
-
+<div class="row">
+<?
 $select_amc_job=mysqli_query($conn,"select * from quotation_product  where duration='amc' and quotation_id='$ID'");
-
 $row_amc_job=mysqli_fetch_array($select_amc_job);
 $amc_fromdate=$row_amc_job['amc_fromdate'];
-$amc_todate=$row_amc_job['amc_todate'];
    ?>
 <div class="col-md-2  me-3">
 <label for="inputFirstName" class="form-label">AMC From Date:</label>
 <input type="date" onchange="amctodate()" class="form-control amcdate" id='amc_from_date' value="<?=$amc_fromdate;?>" min="<?=$currentdate;?>"  name="amc_from_date" >
 </div>
-
-
 <div class="col-md-2  me-3">
-<label for="inputFirstName" class="form-label">AMC To Date:</label>
-<input type="date" onchange="amctodate()" class="form-control amcdate" id='amc_to_date' value="<?=$amc_todate;?>" min="<?=$currentdate;?>"  name="amc_to_date">
+<label for="inputFirstName" class="form-label">Repeat Every:</label>
+<div class="row">
+    <div class="col-md-4 ">
+  <input type="text" class="form-control amcdate" id='repeat_every '  name="repeat_every" oninput="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="3" placeholder="No.">
+</div>
+<div class="col-md-8">
+  <select class="form-select amcdate" name="main_amc_duration">
+<option>Select Duration</option>
+<option value="days">Days</option>
+<option value="weeks">Weeks</option>
+<option value="months">Months</option>
+<option value="years">Years</option>
+</select>
+</div>
+</div>
+
 <div class="mt-2 text-center">
 <p class="text-danger font-14 fw-600" id="warning"></p>
 </div>
 </div>
 
 <div class="col-md-2  me-3">
-<label for="inputFirstName" class="form-label">AMC Duration:</label>
-<select class="form-select" name="main_amc_duration">
-<option>Select Duration</option>
-<option value="Weekly">Weekly</option>
-<option value="Monthly">Monthly</option>
-<option value="Quarterly">Quarterly</option>
-<option value="Half Yearly">Half Yearly</option>
+<label for="inputFirstName" class="form-label width-100">Ends:</label>
+<div class="form-check form-check-inline">
+<input class="form-check-input" type="radio" onclick="getenddate(0)" name="ends_duration" id="on" value="0" <? if($ends_duration =='0' || $ends_duration=='') { echo 'checked'; } ?> required>
+<label class="form-check-label" for="on">On</label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" type="radio" onclick="getenddate(1)" name="ends_duration" id="after" value="1" <? if($ends_duration =='1') { echo 'checked'; } ?>>
+<label class="form-check-label" for="after">After</label>
+</div>
 
-</select>
+
+<div class="my-3">
+    <div id="end_on">
+      <input type="date" class="form-control  end_date" id='amc_end_on_date'  name="amc_end_on_date" >
+    </div>
+    <div id="end_after" style="display:none;">
+         <div class="input-group mb-2 mr-sm-2">
+  <input type="text" class="form-control end_date" id="amc_no_of_occurrence" name="amc_no_of_occurrence" oninput="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="3" placeholder="No.of">
+  <div class="input-group-append">
+    <div class="input-group-text">Occurrence</div>
+  </div>
+</div>
+
+    </div>
+</div>
+
 </div>
 
 
@@ -722,34 +762,7 @@ $description=$row_job_product['description'];
 </form>
 
 
-<div class="modal fade" id="exampleExtraLargeModal" tabindex="1" aria-hidden="false">
-<div class="modal-dialog modal-x">
-<div class="modal-content">
-<div class="modal-header">
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-</div>
-<div class="modal-body">
-<div class="card border-top border-0 border-4 border-primary">
-<div class="card-body p-5">
-        <h6>AMC Duration</h6>
-    <hr>
-    <form method="POST">
 
-    <div id="output">
-    </div>
-
-    </form>
-</div>
-</div>
-</div>
-
-</div>
-</div>
-</div>  
-
-
-
-<script src="assets/js/addmore.js"></script>
 
 
 <script>
@@ -785,33 +798,45 @@ if (val==1) {
     $("#amcdiv").css("display","block");
      $("#onetime-jobdate").css("display","none");
     $(".amcdate").attr("required",true);
+    $("#amc_end_on_date").attr("required",true);
     $("#job_date").attr("required",false);
 
 }else{
     $("#amcdiv").css("display","none");
     $(".amcdate").attr("required",false);
     $("#job_date").attr("required",true);
+      $("#amc_end_on_date").attr("required",false);
     $("#onetime-jobdate").css("display","block");
 }
 }
 
 
+function getenddate(val){
+
+
+if (val==1) {
+    $("#end_after").css("display","block");
+     $("#amc_end_on_date").css("display","none");
+    $(".end_date").attr("required",false);
+    $("#amc_no_of_occurrence").attr("required",true);
+
+}else{
+    $("#end_after").css("display","none");
+    $(".end_date").attr("required",true);
+    $("#amc_no_of_occurrence").attr("required",false);
+    $("#amc_end_on_date").css("display","block");
+}
+}
+
+
+
 function amctodate(){
 
 fromdate=$("#amc_from_date").val();
-todate=$("#amc_to_date").val();
-      from_date = new Date(fromdate);
-     to_date = new Date(todate);
-diffTime = to_date - from_date;
- diffDays = diffTime / (1000 * 60 * 60 * 24);
-  if (to_date < from_date) {
-         $("#warning").text("To date must be after the from date").show().delay(3500).fadeOut();
-$("#amc_to_date").val("");
+ d = new Date(fromdate);
+    d.setDate(d.getDate() + 1);
+    $("#amc_end_on_date").attr("min", d.toISOString().split("T")[0]);
 
-        }else if(diffDays <= 7){
- $("#warning").text("To date must be 7 days greater than from date").show().delay(4500).fadeOut();
-$("#amc_to_date").val("");
-}
 }
 </script> 
 
